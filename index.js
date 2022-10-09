@@ -58,8 +58,15 @@ app.post('/web_data', async (res, req) => {
             title: 'Successful purchase!',
             input_message_content: {message_text: `Happy money spending day! You bought ${products.length} items for ${totalPrice}`}
         })
+        return res.status(200).json({})
     } catch (e) {
-        
+        await bot.answerWebAppQuery(queryId, {
+            type: 'article',
+            id: queryId,
+            title: 'Unsuccessful purchase:(',
+            input_message_content: {message_text: `You spend nothing! What a shame!`}
+        })
+        return res.status(500).json({})
     }
 })
 
